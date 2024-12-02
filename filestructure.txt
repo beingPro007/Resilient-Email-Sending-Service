@@ -1,0 +1,16 @@
+|-- .env
+|-- .gitignore
+|-- .prettierignore
+|-- .prettierrc
+|-- app.js
+|-- dockerfile
+|-- package-lock.json
+|-- package.json
+|-- server.js
+|-- src
+    |-- controllers
+    |-- db
+    |-- middlewares
+    |-- models
+    |-- routes
+    |-- utils
