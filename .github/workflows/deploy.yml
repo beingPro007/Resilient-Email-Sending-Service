@@ -5,7 +5,6 @@ on:
     branches:
       - main
 
-
 jobs:
   build_and_deploy:
     runs-on: ubuntu-latest
@@ -22,20 +21,22 @@ jobs:
         project_id: planar-night-441205-d0
         credentials_json: ${{ secrets.GOOGLE_CLOUD_KEYFILE_JSON }}
 
-   # Build the Docker image
+    # Build the Docker image
     - name: Build Docker image
       run: |
-        docker build -t gcr.io/${{ secrets.GOOGLE_CLOUD_PROJECT }}/email-service-backend:$GITHUB_SHA .
+        docker build -t us-central1-docker.pkg.dev/${{ secrets.GOOGLE_CLOUD_PROJECT }}/email-service-backend/email-service-backend:$GITHUB_SHA .
 
     # Push Docker image to Google Artifact Registry
     - name: Push Docker image to Artifact Registry
       run: |
         gcloud auth configure-docker us-central1-docker.pkg.dev
-        docker push gcr.io/${{ secrets.GOOGLE_CLOUD_PROJECT }}/email-service-backend:$GITHUB_SHA
+        docker push us-central1-docker.pkg.dev/${{ secrets.GOOGLE_CLOUD_PROJECT }}/email-service-backend/email-service-backend:$GITHUB_SHA
+
+    # Deploy to Cloud Run
     - name: Deploy to Cloud Run
       run: |
         gcloud run deploy email-service-backend \
-          --image gcr.io/${{ secrets.GOOGLE_CLOUD_PROJECT }}/email-service-backend:$GITHUB_SHA \
+          --image us-central1-docker.pkg.dev/${{ secrets.GOOGLE_CLOUD_PROJECT }}/email-service-backend/email-service-backend:$GITHUB_SHA \
           --platform managed \
           --region us-central1 \
           --allow-unauthenticated
