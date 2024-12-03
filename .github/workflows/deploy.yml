@@ -1,0 +1,41 @@
+name: Deploy to Google Cloud Run
+
+on:
+  push:
+    branches:
+      - main
+
+
+jobs:
+  build_and_deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+    # Checkout the code from the repository
+    - name: Checkout code
+      uses: actions/checkout@v2
+
+    # Set up Google Cloud CLI and authenticate using the service account key stored in GitHub Secrets
+    - name: Set up Google Cloud SDK
+      uses: google-github-actions/setup-gcloud@v0.7.0
+      with:
+        project_id: planar-night-441205-d0
+        credentials_json: ${{ secrets.GOOGLE_CLOUD_KEYFILE_JSON }}
+
+   # Build the Docker image
+    - name: Build Docker image
+      run: |
+        docker build -t gcr.io/${{ secrets.GOOGLE_CLOUD_PROJECT }}/email-service-backend:$GITHUB_SHA .
+
+    # Push Docker image to Google Artifact Registry
+    - name: Push Docker image to Artifact Registry
+      run: |
+        gcloud auth configure-docker us-central1-docker.pkg.dev
+        docker push gcr.io/${{ secrets.GOOGLE_CLOUD_PROJECT }}/email-service-backend:$GITHUB_SHA
+    - name: Deploy to Cloud Run
+      run: |
+        gcloud run deploy email-service-backend \
+          --image gcr.io/${{ secrets.GOOGLE_CLOUD_PROJECT }}/email-service-backend:$GITHUB_SHA \
+          --platform managed \
+          --region us-central1 \
+          --allow-unauthenticated
