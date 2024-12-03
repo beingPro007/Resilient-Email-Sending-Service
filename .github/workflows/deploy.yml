@@ -19,7 +19,7 @@ jobs:
       uses: google-github-actions/setup-gcloud@v0.7.0
       with:
         project_id: ${{ secrets.GOOGLE_CLOUD_PROJECT }}
-        credentials_json: ${{ secrets.GOOGLE_CLOUD_KEYFILE_JSON }}
+        service_account_key: ${{ secrets.GOOGLE_CLOUD_KEYFILE_JSON }} 
 
     # Build the Docker image
     - name: Build Docker image
