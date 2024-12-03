@@ -18,7 +18,7 @@ jobs:
     - name: Set up Google Cloud SDK
       uses: google-github-actions/setup-gcloud@v0.7.0
       with:
-        project_id: planar-night-441205-d0
+        project_id: ${{ secrets.GOOGLE_CLOUD_PROJECT }}
         credentials_json: ${{ secrets.GOOGLE_CLOUD_KEYFILE_JSON }}
 
     # Build the Docker image
@@ -29,7 +29,9 @@ jobs:
     # Push Docker image to Google Artifact Registry
     - name: Push Docker image to Artifact Registry
       run: |
+        gcloud auth configure-docker us-central1-docker.pkg.dev
         docker push us-central1-docker.pkg.dev/${{ secrets.GOOGLE_CLOUD_PROJECT }}/email-service-backend/email-service-backend:$GITHUB_SHA
+
 
     # Deploy to Cloud Run
     - name: Deploy to Cloud Run
