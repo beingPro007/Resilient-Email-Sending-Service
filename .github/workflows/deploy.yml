@@ -10,12 +10,6 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Create .env File
-        run: |
-          echo "MONGODB_URI=${{ secrets.MONGODB_URI }}" >> .env
-          echo "PORT=${{ secrets.PORT }}" >> .env
-          echo "amqp=${{ secrets.amqp }}" >> .env
-          echo "amqpSend=${{ secrets.amqpSend }}" >> .env
 
       - name: Checkout code
         uses: actions/checkout@v2
@@ -29,6 +23,13 @@ jobs:
         uses: google-github-actions/setup-gcloud@v2
         with:
           project_id: planar-night-441205-d0
+          
+      - name: Create .env File
+        run: |
+          echo "MONGODB_URI=${{ secrets.MONGODB_URI }}" >> .env
+          echo "PORT=${{ secrets.PORT }}" >> .env
+          echo "amqp=${{ secrets.amqp }}" >> .env
+          echo "amqpSend=${{ secrets.amqpSend }}" >> .env
 
       - name: Build Docker image
         run: |
