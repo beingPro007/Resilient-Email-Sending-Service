@@ -4,14 +4,22 @@
 |-- .prettierignore
 |-- .prettierrc
 |-- app.js
+|-- constants.js
 |-- dockerfile
 |-- package-lock.json
 |-- package.json
+|-- reciever.worker.js
 |-- server.js
 |-- src
     |-- controllers
+        |-- emailSending.controllers.js
     |-- db
-    |-- middlewares
+        |-- index.js
     |-- models
+        |-- email.models.js
     |-- routes
+        |-- emailSending.routes.js
     |-- utils
+        |-- ApiError.js
+        |-- ApiResponse.js
+        |-- Asynchandler.js
