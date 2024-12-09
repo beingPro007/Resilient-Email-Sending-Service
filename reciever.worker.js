@@ -15,7 +15,7 @@ const waitForMongooseConnection = async () => {
 const connectRabbitMQ = async (retries = 5) => {
     while (retries > 0) {
         try {
-            const connection = await amqp.connect(`amqp://${process.env.amqpSendLocal}/`);
+            const connection = await amqp.connect(`amqp://${process.env.amqpSend}/`);
             return connection;
         } catch (error) {
             console.error("RabbitMQ connection failed. Retrying...",error);

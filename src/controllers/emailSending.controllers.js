@@ -23,7 +23,7 @@ const sendMail = asynchandler(async (req, res, _) => {
     let channel, connect;
     try {
         // Establish connection with RabbitMQ
-        connect = await retry(() => amqp.connect(`amqp://${process.env.amqpSendLocal}/`), 5, 1000);
+        connect = await retry(() => amqp.connect(`amqp://${process.env.amqpSend}/`), 5, 1000);
         if (!connect) {
             throw new ApiError(400, "AMQP Connection error occurred!!!");
         }
